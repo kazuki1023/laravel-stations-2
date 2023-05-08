@@ -20,4 +20,10 @@ class PracticeController extends Controller
         $testParam = 'test';
         return view('practice3', ['testParam' => $testParam]);
     }
+
+    public function getPractice()
+    {
+        $practices = \App\Practice::all();
+        return view('getPractice', ['practices' => $practices]);
+    }
 }
