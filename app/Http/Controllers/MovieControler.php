@@ -15,7 +15,7 @@ class MovieControler extends Controller
     function show()
     {
         $movies = \App\Models\Movie::all();
-        return response()->json($movies);
+        return view('movies', ['movies' => $movies]);
     }
 }
 
