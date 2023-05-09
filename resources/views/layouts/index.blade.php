@@ -11,7 +11,7 @@
   @endcomponent
   @component('components.sidebar')
   @endcomponent
-  <main>
+  <main class="mt-14 ml-64">
     @yield('content')
   </main>
 </body>
