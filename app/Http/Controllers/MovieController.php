@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class MovieControler extends Controller
+class MovieController extends Controller
 {
     function index()
     {
@@ -16,6 +16,11 @@ class MovieControler extends Controller
     {
         $movies = \App\Models\Movie::all();
         return view('movies', ['movies' => $movies]);
+    }
+
+    function register()
+    {
+        return view('movies/register');
     }
 }
 
