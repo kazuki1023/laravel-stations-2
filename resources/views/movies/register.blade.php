@@ -8,5 +8,7 @@
 <body>
   @component('components.header')
   @endcomponent
+  @component('components.sidebar')
+  @endcomponent
 </body>
 </html>
