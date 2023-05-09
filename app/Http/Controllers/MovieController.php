@@ -15,7 +15,7 @@ class MovieController extends Controller
     function show()
     {
         $movies = \App\Models\Movie::all();
-        return view('movies', ['movies' => $movies]);
+        return view('movies/movies', ['movies' => $movies]);
     }
 
     function register()
