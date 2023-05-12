@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\MovieRulesRequest;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Models\Movie;
 
 class MovieController extends Controller
 {
@@ -39,19 +40,24 @@ class MovieController extends Controller
     //     $this->validate($request, $validate_rule);
     // }
     public function create(MovieRulesRequest $request) {
+        try {
+            DB::getRawPdo();
+            echo "データベースに接続されました！";
+        } catch (\Exception $e) {
+            echo ("データベースに接続できませんでした。エラー: " . $e->getMessage());
+        }
         $created_at = Carbon::now();
-        $updated_at = Carbon::now();
         $is_showing = $request->is_showing ? 1 : 0;
-        $param = [
-            'title' => $request->title,
-            'image_url' => $request->image_url,
-            'description' => $request->description,
-            'published_year' => $request->published_year,
-            'created_at' => $created_at->format('Y-m-d 0:0:0'),
-            'updated_at' => $updated_at->format('Y-m-d H:i:s'),
-            'is_showing' => $is_showing,
-        ];
-        DB::table('movies')->insert($param);
+        $movie = new Movie();
+        $movie->title = $request->title;
+        $movie->image_url = $request->image_url;
+        $movie->description = $request->description;
+        $movie->published_year = $request->published_year;
+        $movie->created_at = $created_at->format('Y-m-d H:i:s');
+        $movie->updated_at = $created_at->format('Y-m-d H:i:s');
+        $movie->is_showing = $is_showing;
+        $movie->save();
+        dd($movie);
         return redirect('/admin/movies');
     }
 }
