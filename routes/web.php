@@ -31,3 +31,8 @@ Route::get('/movies', [MovieController::class, 'index']);
 Route::get('/admin/movies', [MovieController::class, 'show']);
 
 Route::get('/admin/movies/create', [MovieController::class, 'register']);
+Route::post('/admin/movies/store', [MovieController::class, 'create']);
+
+
+
+

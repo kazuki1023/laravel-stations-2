@@ -16,8 +16,8 @@ class MovieFactory extends Factory
         return [
             'title' => $this->faker->unique()->word,
             'image_url' => $this->faker->imageUrl(),
-            'created_at' => $this->faker->dateTime(),
-            'updated_at' => $this->faker->dateTime(),
+            'created_at' => $this->faker->date(),
+            'updated_at' => $this->faker->date(),
             'published_year' => $this->faker->year(),
             'is_showing' => $this->faker->boolean(),
             'description' => $this->faker->text(10),
