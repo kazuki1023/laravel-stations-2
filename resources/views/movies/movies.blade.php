@@ -11,22 +11,22 @@
                     <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
                         タイトル
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3 bg-gray-50">
                         画像URL
                     </th>
                     <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
                         公開年
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3 bg-gray-50">
                         概要
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3 bg-gray-50">
                         登録日時
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3 bg-gray-50">
                         更新日時
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th scope="col" class="px-6 py-3 bg-gray-50">
                         公開中かどうか
                     </th>
                 </tr>
@@ -38,13 +38,13 @@
                             {{ $movie->id }}
                         </th>
                         <th scope="row"
-                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
+                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white dark:bg-gray-800">
                             {{ $movie->title }}
                         </th>
                         <td class="px-6 py-4">
                             {{ $movie->image_url }}
                         </td>
-                        <td class="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+                        <td class="px-6 py-4 dark:bg-gray-800">
                             {{ $movie->published_year }}
                         </td>
                         <td class="px-6 py-4">

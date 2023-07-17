@@ -12,13 +12,13 @@ class MovieController extends Controller
 {
     function index()
     {
-        $movies = \App\Models\Movie::all();
+        $movies = Movie::all();
         return view('movies', ['movies' => $movies]);
     }
 
     function show()
     {
-        $movies = \App\Models\Movie::all();
+        $movies = Movie::all();
         return view('movies/movies', ['movies' => $movies]);
     }
 
