@@ -1,7 +1,8 @@
 @extends('layouts.index')
 
 @section('content')
-    <form action="/admin/movies/{{$movie->id}}/update" method="patch" class="">
+    <form action="/admin/movies/{{$movie->id}}/update" method="post" class="">
+        @method('PATCH')
         @csrf
         <div class="mb-6 w-4/5">
             @error('title')

@@ -74,4 +74,44 @@ class MovieController extends Controller
         $movie = Movie::find($id);
         return view('movies/edit', ['movie' => $movie]);
     }
+
+    public function update($id, Request $request)
+    {
+        // バリデーション作成
+        $rules = [
+            'title' => 'required|max:255|unique:movies',
+            'image_url' => 'required|url',
+            'published_year' => 'required|integer',
+            'description' => 'required|max:255',
+            'is_showing' => 'required',
+        ];
+        $messages = [
+            'title.required' => 'タイトルを入力してください',
+            'title.max' => 'タイトルは255文字以内で入力してください',
+            'title.unique' => 'タイトルは既に登録されています',
+            'image_url.required' => '画像URLを入力してください',
+            'image_url.url' => '画像URLを正しく入力してください',
+            'published_year.required' => '公開年を入力してください',
+            'description.max' => '概要は255文字以内で入力してください',
+            'description.required' => '概要を入力してください',
+            'is_showing.max' => '公開年を入力してください',
+        ];
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            // バリデーションエラーが発生した場合の処理
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $movie = Movie::find($id);
+        $updated_at = Carbon::now();
+        $is_showing = ($request->is_showing == '上映中') ? true : false;
+
+        $movie->title = $request->title;
+        $movie->image_url = $request->image_url;
+        $movie->description = $request->description;
+        $movie->published_year = $request->published_year;
+        $movie->is_showing = $is_showing;
+        $movie->updated_at = $updated_at->format('Y-m-d H:i:s');
+        $movie->save();
+        return redirect('/admin/movies');
+    }
 }
