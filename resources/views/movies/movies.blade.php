@@ -29,6 +29,9 @@
                     <th scope="col" class="px-6 py-3 bg-gray-50">
                         公開中かどうか
                     </th>
+                    <th scope="col" class="px-6 py-3 bg-gray-50">
+                        編集
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -65,6 +68,10 @@
                                 上映予定
                             </td>
                         @endif
+                        <td class="px-6 py-4">
+                            <a href="/admin/movies/{{ $movie->id }}/edit"
+                                class="text-indigo-800 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600">編集</a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
