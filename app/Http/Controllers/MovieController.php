@@ -68,4 +68,11 @@ class MovieController extends Controller
         // dd($movie);
         return redirect('/admin/movies');
     }
+
+    public function edit($id)
+    {
+        $movie = Movie::find($id);
+        dd($movie);
+        return view('movies/edit', ['movie' => $movie]);
+    }
 }
