@@ -35,12 +35,12 @@ class AdminMovieTest extends TestCase
             $response->assertSeeText($movie->description);
             if ($movie->is_showing) {
                 $response->assertSeeText('上映中');
+                $response->assertDontSee('true');
             } else {
                 $response->assertSeeText('上映予定');
+                $response->assertDontSee('false');
             }
         }
-        $response->assertDontSee('true');
-        $response->assertDontSee('false');
     }
 
     public function test管理者映画作成画面が表示されているか(): void

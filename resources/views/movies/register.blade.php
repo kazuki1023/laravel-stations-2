@@ -45,19 +45,19 @@
                     <span class="font-medium">Danger alert!</span> {{ $message }}
                 </div>
             @enderror
-            <label for="is_showing" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">公開中かどうか</label>
+            <label for="is_showing" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">上映中かどうか</label>
             <select id="is_showing"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 name="is_showing"   value="{{ old('is_showing')}}">
                 <option selected>
                     @if (old('is_showing'))
-                        公開中
+                        上映中
                     @else
-                        公開中止
+                        上映予定
                     @endif
                 </option>
-                <option value=true>公開中</option>
-                <option value=false>公開中止</option>
+                <option value=true>上映中</option>
+                <option value=false>上映予定</option>
             </select>
         </div>
         <div class="w-4/5 mb-6">
