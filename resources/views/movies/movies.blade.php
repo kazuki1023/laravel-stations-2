@@ -9,7 +9,7 @@
                         id
                     </th>
                     <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-                        タイトル
+                        映画タイトル
                     </th>
                     <th scope="col" class="px-6 py-3 bg-gray-50">
                         画像URL
