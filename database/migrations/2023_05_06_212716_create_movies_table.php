@@ -22,7 +22,7 @@ class CreateMoviesTable extends Migration
             $table->timestamp('updated_at')->nullable()->default(Movie::raw('CURRENT_TIMESTAMP'))->comment('更新日時');
             $table->text('description')->nullable()->comment('概要');
             $table->integer('published_year')->nullable()->comment('公開年');
-            $table->tinyInteger('is_showing')->comment('公開中かどうか');
+            $table->boolean('is_showing')->comment('公開中かどうか');
         });
     }
 
