@@ -1,6 +1,13 @@
 @extends('layouts.index')
 
 @section('content')
+{{-- 削除成功のflashメッセージを表示させる --}}
+@if (session('delete_success'))
+    <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+        role="alert">
+        <span class="font-medium">Success!</span> {{ session('delete_success') }}
+    </div>
+@endif
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
@@ -29,6 +36,13 @@
                     <th scope="col" class="px-6 py-3 bg-gray-50">
                         公開中かどうか
                     </th>
+                    <th scope="col" class="px-6 py-3 bg-gray-50">
+                        編集
+                    </th>
+                    <th scope="col" class="px-6 py-3 bg-gray-50">
+                        削除
+                    </th>
+
                 </tr>
             </thead>
             <tbody>
@@ -65,6 +79,18 @@
                                 上映予定
                             </td>
                         @endif
+                        <td class="px-6 py-4">
+                            <a href="/admin/movies/{{ $movie->id }}/edit"
+                                class="text-indigo-800 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600">編集</a>
+                        </td>
+                        <td class="px-6 py-4">
+                            <form action="/admin/movies/1/destroy" method="POST" class="delete-form">
+                                @method('DELETE')
+                                @csrf
+                                <button type="submit"
+                                    class="text-red-800 hover:text-red-900 dark:text-red-400 dark:hover:text-red-600">削除</button>
+                            </form>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>

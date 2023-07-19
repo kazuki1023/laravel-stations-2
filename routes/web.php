@@ -33,6 +33,13 @@ Route::get('/admin/movies', [MovieController::class, 'show']);
 Route::post('/admin/movies/store', [MovieController::class, 'store']);
 Route::get('/admin/movies/create', [MovieController::class, 'register']);
 
+// 編集
+Route::get('admin/movies/{id}/edit', [MovieController::class, 'edit']);
+Route::patch('admin/movies/{id}/update', [MovieController::class, 'update']);
+
+// 削除
+Route::delete('admin/movies/{id}/destroy', [MovieController::class, 'delete']);
+
 
 
 
