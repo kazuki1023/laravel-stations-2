@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+
+
 use Carbon\Carbon;
 use App\Models\Movie;
 
@@ -16,10 +18,28 @@ class MovieController extends Controller
         return view('movies', ['movies' => $movies]);
     }
 
-    function show()
+    function show(Request $request)
     {
-        $movies = Movie::all();
-        return view('movies/movies', ['movies' => $movies]);
+        // クエリーパラメータがある場合
+        if(!empty($request->input())) {
+            $keyword = $request->input('keyword');
+            $is_showing = (int) $request->input('is_showing');
+            $query = Movie::query();
+            if(isset($is_showing) && $is_showing !== 2) {
+                $query->where('is_showing', $is_showing);
+            }
+            if(isset($keyword)) {
+                $query->where(function ($query) use ($keyword) {
+                    $query->where('title', 'like', '%' . $keyword . '%')
+                        ->orWhere('description', 'like', '%' . $keyword . '%');
+                });
+            }
+            $movies = $query->paginate(20);
+            return view('movies/movies', ['movies' => $movies]);
+        } else {
+            $movies = Movie::paginate(20);
+            return view('movies/movies', ['movies' => $movies]);
+        }
     }
 
     function register(Request $request)
