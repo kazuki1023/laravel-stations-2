@@ -32,6 +32,10 @@
                     <th scope="col" class="px-6 py-3 bg-gray-50">
                         編集
                     </th>
+                    <th scope="col" class="px-6 py-3 bg-gray-50">
+                        削除
+                    </th>
+
                 </tr>
             </thead>
             <tbody>
@@ -71,6 +75,14 @@
                         <td class="px-6 py-4">
                             <a href="/admin/movies/{{ $movie->id }}/edit"
                                 class="text-indigo-800 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600">編集</a>
+                        </td>
+                        <td class="px-6 py-4">
+                            <form action="/admin/movies/{{ $movie->id }}/delete" method="POST" class="delete-form">
+                                @method('DELETE')
+                                @csrf
+                                <button type="submit"
+                                    class="text-red-800 hover:text-red-900 dark:text-red-400 dark:hover:text-red-600">削除</button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
