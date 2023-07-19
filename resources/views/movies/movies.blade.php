@@ -8,11 +8,10 @@
             <span class="font-medium">Success!</span> {{ session('delete_success') }}
         </div>
     @endif
-    {{-- ページネーションのリンク --}}
-    <div class="mb-4">
-        {{ $movies->links() }}
-    </div>
     <form action="" method="get">
+        <div class="mb-4 flex justify-center ">
+            {{ $movies->appends(request()->query())->links('vendor.pagination.tailwind')  }}
+        </div>
         <p class="flex justify-center py-2 font-medium text-gray-900">検索フォーム</p>
         <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
         <div class="relative">
@@ -29,17 +28,17 @@
                 <p class="font-medium text-gray-900">上映状況</p>
             </div>
             <div class="flex items-center mr-4">
-                <input id="inline-radio" type="radio" value=0 name="is_showing"
+                <input id="inline-radio" type="radio" value=0 name="is_showing" {{old('is_showing') == 0 ? 'checked' : ''}}
                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 <label for="inline-radio" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">公開予定</label>
             </div>
             <div class="flex items-center mr-4">
-                <input id="inline-2-radio" type="radio" value=1 name="is_showing"
+                <input id="inline-2-radio" type="radio" value=1 name="is_showing" {{old('is_showing') == 1 ? 'checked' : ''}}
                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 <label for="inline-2-radio" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">公開中</label>
             </div>
             <div class="flex items-center mr-4">
-                <input checked id="inline-checked-radio" type="radio" value=2 name="is_showing"
+                <input  id="inline-checked-radio" type="radio" value=2 name="is_showing" {{old('is_showing') == 2 ? 'checked' : ''}}
                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 <label for="inline-checked-radio" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">全て</label>
             </div>
