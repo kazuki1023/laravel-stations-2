@@ -114,4 +114,12 @@ class MovieController extends Controller
         $movie->save();
         return redirect('/admin/movies');
     }
+
+    public function delete($id) {
+        $movie = Movie::find($id);
+        $movie->delete();
+        // 削除完了メッセージをセッションに保存
+        session()->flash('delete_success', '削除が完了しました');
+        return redirect('/admin/movies');
+    }
 }

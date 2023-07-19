@@ -1,6 +1,13 @@
 @extends('layouts.index')
 
 @section('content')
+{{-- 削除成功のflashメッセージを表示させる --}}
+@if (session('delete_success'))
+    <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+        role="alert">
+        <span class="font-medium">Success!</span> {{ session('delete_success') }}
+    </div>
+@endif
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase dark:text-gray-400">
