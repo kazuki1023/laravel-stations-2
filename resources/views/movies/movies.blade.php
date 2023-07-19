@@ -84,7 +84,7 @@
                                 class="text-indigo-800 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600">編集</a>
                         </td>
                         <td class="px-6 py-4">
-                            <form action="/admin/movies/{{ $movie->id }}/delete" method="POST" class="delete-form">
+                            <form action="/admin/movies/{{ $movie->id }}/destroy" method="POST" class="delete-form">
                                 @method('DELETE')
                                 @csrf
                                 <button type="submit"

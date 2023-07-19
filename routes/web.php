@@ -38,7 +38,7 @@ Route::get('admin/movies/{id}/edit', [MovieController::class, 'edit']);
 Route::patch('admin/movies/{id}/update', [MovieController::class, 'update']);
 
 // 削除
-Route::delete('admin/movies/{id}/delete', [MovieController::class, 'delete']);
+Route::delete('admin/movies/{id}/destroy', [MovieController::class, 'delete']);
 
 
 
