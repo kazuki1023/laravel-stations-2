@@ -117,6 +117,9 @@ class MovieController extends Controller
 
     public function delete($id) {
         $movie = Movie::find($id);
+        if (!$movie) {
+            return response()->view('errors/notExists', ['message' => '映画が見つかりませんでした'], 404);
+        }
         $movie->delete();
         // 削除完了メッセージをセッションに保存
         session()->flash('delete_success', '削除が完了しました');
