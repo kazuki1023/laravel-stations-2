@@ -35,11 +35,12 @@ class MovieController extends Controller
                         ->orWhere('description', 'like', '%' . $keyword . '%');
                 });
             }
-            $movies = $query->paginate(20)->appends(request()->query());
-            return view('movies/movies', ['movies' => $movies]);
+            // dd($query->get()->toArray());
+            $movies = $query->paginate(19)->appends(request()->query());
+            return view('movies', ['movies' => $movies]);
         } else {
-            $movies = Movie::paginate(20);
-            return view('movies/movies', ['movies' => $movies]);
+            $movies = Movie::paginate(19);
+            return view('movies', ['movies' => $movies]);
         }
     }
 
