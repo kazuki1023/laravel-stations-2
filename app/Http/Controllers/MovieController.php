@@ -48,6 +48,11 @@ class MovieController extends Controller
         }
     }
 
+    function showAdmin(Request $request) {
+        $movies = Movie::paginate(20);
+        return view('movies/movies', ['movies' => $movies]);
+    }
+
     function register(Request $request)
     {
         return view('movies/register');
