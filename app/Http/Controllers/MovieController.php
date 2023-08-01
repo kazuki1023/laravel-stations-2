@@ -5,8 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Pagination\LengthAwarePaginator;
+
+
 use Carbon\Carbon;
 use App\Models\Movie;
+
+use function PHPUnit\Framework\isNull;
 
 class MovieController extends Controller
 {
@@ -16,10 +21,31 @@ class MovieController extends Controller
         return view('movies', ['movies' => $movies]);
     }
 
-    function show()
+    function show(Request $request)
     {
-        $movies = Movie::all();
-        return view('movies/movies', ['movies' => $movies]);
+        // クエリーパラメータがある場合
+        if (!empty($request->input())) {
+            $keyword = $request->input('keyword');
+            $is_showing =  $request->input('is_showing');
+            // dd($is_showing);
+            $query = Movie::query();
+            if (isset($is_showing) && $is_showing !== 2) {
+                $query->where('is_showing', $is_showing);
+            }
+            if (!is_null($keyword)) {
+                $query->where(function ($query) use ($keyword) {
+                    $query->where('title', 'like', '%' . $keyword . '%')
+                        ->orWhere('description', 'like', '%' . $keyword . '%');
+                });
+                // dd($query->toSql());
+            }
+            // dd($query->get()->toArray());
+            $movies = $query->paginate(20)->appends(request()->query());
+            return view('movies', ['movies' => $movies]);
+        } else {
+            $movies = Movie::paginate(20);
+            return view('movies', ['movies' => $movies]);
+        }
     }
 
     function register(Request $request)
@@ -115,7 +141,8 @@ class MovieController extends Controller
         return redirect('/admin/movies');
     }
 
-    public function delete($id) {
+    public function delete($id)
+    {
         $movie = Movie::find($id);
         if (!$movie) {
             return response()->view('errors/notExists', ['message' => '映画が見つかりませんでした'], 404);

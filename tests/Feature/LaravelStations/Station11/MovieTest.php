@@ -11,6 +11,7 @@ use Tests\TestCase;
  */
 class MovieTest extends TestCase
 {
+    // テストケースごとにDBをリフレッシュする
     use RefreshDatabase;
 
     public function test映画一覧に全ての映画のタイトル、画像URLが表示されているか(): void
@@ -34,6 +35,7 @@ class MovieTest extends TestCase
         }
     }
 
+    // is_showing=1 が渡されているときは公開中のみ、 is_showing=0 が渡されているときは公開予定のみを表示する
     public function test映画一覧で検索ができるか(): void
     {
         $count = 12;
@@ -46,7 +48,7 @@ class MovieTest extends TestCase
                 'is_showing' => 1,
             ]);
         }
-        // タイトル
+        // // タイトル
         $response = $this->get('/movies?keyword=トル5');
         $response->assertStatus(200);
         $response->assertSeeText('タイトル5');
