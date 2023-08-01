@@ -11,6 +11,8 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Carbon\Carbon;
 use App\Models\Movie;
 
+use function PHPUnit\Framework\isNull;
+
 class MovieController extends Controller
 {
     function index()
@@ -24,22 +26,24 @@ class MovieController extends Controller
         // クエリーパラメータがある場合
         if (!empty($request->input())) {
             $keyword = $request->input('keyword');
-            $is_showing = (int) $request->input('is_showing');
+            $is_showing =  $request->input('is_showing');
+            // dd($is_showing);
             $query = Movie::query();
             if (isset($is_showing) && $is_showing !== 2) {
                 $query->where('is_showing', $is_showing);
             }
-            if (isset($keyword)) {
+            if (!is_null($keyword)) {
                 $query->where(function ($query) use ($keyword) {
                     $query->where('title', 'like', '%' . $keyword . '%')
                         ->orWhere('description', 'like', '%' . $keyword . '%');
                 });
+                // dd($query->toSql());
             }
             // dd($query->get()->toArray());
-            $movies = $query->paginate(19)->appends(request()->query());
+            $movies = $query->paginate(20)->appends(request()->query());
             return view('movies', ['movies' => $movies]);
         } else {
-            $movies = Movie::paginate(19);
+            $movies = Movie::paginate(20);
             return view('movies', ['movies' => $movies]);
         }
     }
