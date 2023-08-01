@@ -9,7 +9,7 @@
         </div>
     @endif
     <div class="mb-4 flex justify-center ">
-        {{ $movies->appends(request()->query())->links('vendor.pagination.tailwind')  }}
+        {{ $movies->appends(request()->query())->links('vendor.pagination.tailwind') }}
     </div>
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
