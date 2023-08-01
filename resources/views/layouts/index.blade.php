@@ -11,9 +11,9 @@
 <body>
     @component('components.header')
     @endcomponent
-    {{-- @component('components.sidebar')
-    @endcomponent --}}
-    <main class="mt-14 ml-8">
+    @component('components.sidebar')
+    @endcomponent
+    <main class="mt-14 ml-64 pt-14">
         @yield('content')
     </main>
     <script>
