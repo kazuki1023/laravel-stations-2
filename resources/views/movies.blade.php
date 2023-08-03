@@ -8,7 +8,7 @@
             <span class="font-medium">Success!</span> {{ session('delete_success') }}
         </div>
     @endif
-    <form action="" method="get">
+    <form action="" method="get" class="">
         <div class="mb-4 flex justify-center ">
             {{ $movies->appends(request()->query())->links('vendor.pagination.tailwind')  }}
         </div>

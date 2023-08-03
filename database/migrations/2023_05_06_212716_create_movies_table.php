@@ -16,7 +16,7 @@ class CreateMoviesTable extends Migration
     {
         Schema::create('movies', function (Blueprint $table) {
             $table->unsignedbiginteger('id')->autoIncrement()->comment('ID');
-            $table->text('title')->nullable()->comment('タイトル');
+            $table->string('title')->unique()->nullable()->comment('タイトル');
             $table->text('image_url')->nullable()->comment('画像URL');
             $table->timestamp('created_at')->nullable()->default(Movie::raw('CURRENT_TIMESTAMP'))->comment('作成日時');
             $table->timestamp('updated_at')->nullable()->default(Movie::raw('CURRENT_TIMESTAMP'))->comment('更新日時');

@@ -4,7 +4,9 @@ namespace Database\Seeders;
 
 use App\Models\Practice;
 use App\Models\Movie;
+use App\Models\Sheet;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,5 +20,8 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         Movie::factory(40)->create();
+        $this->call([
+            SheetTableSeeder::class,
+        ]);
     }
 }

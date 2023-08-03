@@ -1,3 +1,16 @@
+### 単体テストの実行
+1. 以下を単体で実行したいとこに記載
+```
+/**
+     * @group test
+     */
+```
+
+2. 以下のコマンドを実行
+```
+php artisan test --group=test
+```
+
 # 環境構築
 
 1. Docker Desktop
@@ -147,3 +160,4 @@ scoop install git nodejs-lts yarn
 
 
 ![スクリーンショット 2022-03-18 16 09 00](https://user-images.githubusercontent.com/16362021/158953853-a4105a2c-b042-46af-83cf-e1737cd51912.png)
+

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use App\Models\Genre;
+use App\Models\Sheet;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 
@@ -37,15 +39,19 @@ class MovieController extends Controller
                     $query->where('title', 'like', '%' . $keyword . '%')
                         ->orWhere('description', 'like', '%' . $keyword . '%');
                 });
-                // dd($query->toSql());
             }
-            // dd($query->get()->toArray());
             $movies = $query->paginate(20)->appends(request()->query());
             return view('movies', ['movies' => $movies]);
         } else {
             $movies = Movie::paginate(20);
             return view('movies', ['movies' => $movies]);
         }
+    }
+
+    function showAdmin(Request $request)
+    {
+        $movies = Movie::paginate(20);
+        return view('movies/movies', ['movies' => $movies]);
     }
 
     function register(Request $request)
@@ -55,43 +61,52 @@ class MovieController extends Controller
 
     public function store(Request $request)
     {
-        // バリデーション作成
-        $rules = [
-            'title' => 'required|max:255|unique:movies',
-            'image_url' => 'required|url',
-            'published_year' => 'required|integer',
-            'description' => 'required|max:255',
-            'is_showing' => 'required',
-        ];
-        $messages = [
-            'title.required' => 'タイトルを入力してください',
-            'title.max' => 'タイトルは255文字以内で入力してください',
-            'title.unique' => 'タイトルは既に登録されています',
-            'image_url.required' => '画像URLを入力してください',
-            'image_url.url' => '画像URLを正しく入力してください',
-            'published_year.required' => '公開年を入力してください',
-            'description.max' => '概要は255文字以内で入力してください',
-            'description.required' => '概要を入力してください',
-            'is_showing.max' => '公開年を入力してください',
-        ];
-        $validator = Validator::make($request->all(), $rules, $messages);
-        if ($validator->fails()) {
-            // バリデーションエラーが発生した場合の処理
-            return redirect()->back()->withErrors($validator)->withInput();
+        try {
+            DB::transaction(function () use ($request) {
+                // バリデーション作成
+                $rules = [
+                    'title' => 'required|unique:movies',
+                    'image_url' => 'required|url',
+                    'published_year' => 'required|integer',
+                    'description' => 'required|max:255',
+                    'is_showing' => 'required',
+                    'genre' => 'required'
+                ];
+                $messages = [
+                    'title.required' => 'タイトルを入力してください',
+                    'title.unique' => 'タイトルは既に登録されています',
+                    'image_url.required' => '画像URLを入力してください',
+                    'image_url.url' => '画像URLを正しく入力してください',
+                    'published_year.required' => '公開年を入力してください',
+                    'description.max' => '概要は255文字以内で入力してください',
+                    'description.required' => '概要を入力してください',
+                    'is_showing.max' => '公開年を入力してください',
+                    'genre.required' => 'ジャンルを入力してください'
+                ];
+                $validator = Validator::make($request->all(), $rules, $messages);
+                if ($validator->fails()) {
+                    // バリデーションエラーが発生した場合の処理
+                    return redirect()->back()->withErrors($validator)->withInput();
+                    // abort(500, "Validation error");
+                }
+                $created_at = Carbon::now();
+                $is_showing = ($request->is_showing == '上映中') ? true : false;
+                $genreName = $request->input('genre');
+                $genre = Genre::firstOrCreate(['name' => $genreName]);
+                $movie = new Movie();
+                $movie->title = $request->title;
+                $movie->image_url = $request->image_url;
+                $movie->description = $request->description;
+                $movie->published_year = $request->published_year;
+                $movie->created_at = $created_at->format('Y-m-d H:i:s');
+                $movie->updated_at = $created_at->format('Y-m-d H:i:s');
+                $movie->is_showing = $is_showing;
+                $movie->genre()->associate($genre);
+                $movie->save();
+            });
+        } catch (\Exception $e) {
+            return abort(500, "Validation error");
         }
-        $created_at = Carbon::now();
-        $is_showing = ($request->is_showing == '上映中') ? true : false;
-        // dd($is_showing);
-        $movie = new Movie();
-        $movie->title = $request->title;
-        $movie->image_url = $request->image_url;
-        $movie->description = $request->description;
-        $movie->published_year = $request->published_year;
-        $movie->created_at = $created_at->format('Y-m-d H:i:s');
-        $movie->updated_at = $created_at->format('Y-m-d H:i:s');
-        $movie->is_showing = $is_showing;
-        $movie->save();
-        // dd($movie);
         return redirect('/admin/movies');
     }
 
@@ -104,40 +119,46 @@ class MovieController extends Controller
     public function update($id, Request $request)
     {
         // バリデーション作成
-        $rules = [
-            'title' => 'required|max:255|unique:movies',
-            'image_url' => 'required|url',
-            'published_year' => 'required|integer',
-            'description' => 'required|max:255',
-            'is_showing' => 'required',
-        ];
-        $messages = [
-            'title.required' => 'タイトルを入力してください',
-            'title.max' => 'タイトルは255文字以内で入力してください',
-            'title.unique' => 'タイトルは既に登録されています',
-            'image_url.required' => '画像URLを入力してください',
-            'image_url.url' => '画像URLを正しく入力してください',
-            'published_year.required' => '公開年を入力してください',
-            'description.max' => '概要は255文字以内で入力してください',
-            'description.required' => '概要を入力してください',
-            'is_showing.max' => '公開年を入力してください',
-        ];
-        $validator = Validator::make($request->all(), $rules, $messages);
-        if ($validator->fails()) {
-            // バリデーションエラーが発生した場合の処理
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-        $movie = Movie::find($id);
-        $updated_at = Carbon::now();
-        $is_showing = ($request->is_showing == '上映中') ? true : false;
+        DB::transaction(function () use ($id, $request) {
+            $rules = [
+                'title' => 'required|unique:movies',
+                'image_url' => 'required|url',
+                'published_year' => 'required|integer',
+                'description' => 'required|max:255',
+                'is_showing' => 'required',
+                'genre' => 'required'
+            ];
+            $messages = [
+                'title.required' => 'タイトルを入力してください',
+                'title.unique' => 'タイトルは既に登録されています',
+                'image_url.required' => '画像URLを入力してください',
+                'image_url.url' => '画像URLを正しく入力してください',
+                'published_year.required' => '公開年を入力してください',
+                'description.max' => '概要は255文字以内で入力してください',
+                'description.required' => '概要を入力してください',
+                'is_showing.max' => '公開年を入力してください',
+                'genre.required' => 'ジャンルを入力してください'
+            ];
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()) {
+                // バリデーションエラーが発生した場合の処理
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+            $movie = Movie::find($id);
+            $updated_at = Carbon::now();
+            $is_showing = ($request->is_showing == '上映中') ? true : false;
+            $genreName = $request->input('genre');
+            $genre = Genre::firstOrCreate(['name' => $genreName]);
 
-        $movie->title = $request->title;
-        $movie->image_url = $request->image_url;
-        $movie->description = $request->description;
-        $movie->published_year = $request->published_year;
-        $movie->is_showing = $is_showing;
-        $movie->updated_at = $updated_at->format('Y-m-d H:i:s');
-        $movie->save();
+            $movie->title = $request->title;
+            $movie->image_url = $request->image_url;
+            $movie->description = $request->description;
+            $movie->published_year = $request->published_year;
+            $movie->is_showing = $is_showing;
+            $movie->updated_at = $updated_at->format('Y-m-d H:i:s');
+            $movie->genre()->associate($genre);
+            $movie->save();
+        });
         return redirect('/admin/movies');
     }
 
@@ -151,5 +172,14 @@ class MovieController extends Controller
         // 削除完了メッセージをセッションに保存
         session()->flash('delete_success', '削除が完了しました');
         return redirect('/admin/movies');
+    }
+
+    // 座席表
+    public function sheets()
+    {
+        $sheets = Sheet::all();
+        // 行ごとに分ける
+        $groupedSheets = $sheets->groupBy('row');
+        return view('sheets', compact('groupedSheets'));
     }
 }

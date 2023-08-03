@@ -751,6 +751,10 @@ video {
   margin-left: 4rem;
 }
 
+.ml-8 {
+  margin-left: 2rem;
+}
+
 .ml-64 {
   margin-left: 16rem;
 }
