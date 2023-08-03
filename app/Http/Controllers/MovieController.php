@@ -178,6 +178,8 @@ class MovieController extends Controller
     public function sheets()
     {
         $sheets = Sheet::all();
-        dd($sheets);
+        // 行ごとに分ける
+        $groupedSheets = $sheets->groupBy('row');
+        return view('sheets', compact('groupedSheets'));
     }
 }

@@ -19,6 +19,7 @@ class SheetTest extends TestCase
         $this->assertEquals(Sheet::count(), 15);
     }
 
+
     public function test座席一覧画面に全ての座席が表示されるか(): void
     {
         $this->seed();
