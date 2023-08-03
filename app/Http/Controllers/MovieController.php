@@ -47,7 +47,8 @@ class MovieController extends Controller
         }
     }
 
-    function showAdmin(Request $request) {
+    function showAdmin(Request $request)
+    {
         $movies = Movie::paginate(20);
         return view('movies/movies', ['movies' => $movies]);
     }
@@ -59,11 +60,11 @@ class MovieController extends Controller
 
     public function store(Request $request)
     {
-        // バリデーション作成
-        try{
+        try {
             DB::transaction(function () use ($request) {
+                // バリデーション作成
                 $rules = [
-                    'title' => 'required|max:255|unique:movies',
+                    'title' => 'required|unique:movies',
                     'image_url' => 'required|url',
                     'published_year' => 'required|integer',
                     'description' => 'required|max:255',
@@ -72,7 +73,6 @@ class MovieController extends Controller
                 ];
                 $messages = [
                     'title.required' => 'タイトルを入力してください',
-                    'title.max' => 'タイトルは255文字以内で入力してください',
                     'title.unique' => 'タイトルは既に登録されています',
                     'image_url.required' => '画像URLを入力してください',
                     'image_url.url' => '画像URLを正しく入力してください',
@@ -86,6 +86,7 @@ class MovieController extends Controller
                 if ($validator->fails()) {
                     // バリデーションエラーが発生した場合の処理
                     return redirect()->back()->withErrors($validator)->withInput();
+                    // abort(500, "Validation error");
                 }
                 $created_at = Carbon::now();
                 $is_showing = ($request->is_showing == '上映中') ? true : false;
@@ -103,7 +104,7 @@ class MovieController extends Controller
                 $movie->save();
             });
         } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['error' => 'データベースエラーが発生しました。']);
+            return abort(500, "Validation error");
         }
         return redirect('/admin/movies');
     }
@@ -117,9 +118,9 @@ class MovieController extends Controller
     public function update($id, Request $request)
     {
         // バリデーション作成
-        DB::transaction(function() use ($id, $request) {
+        DB::transaction(function () use ($id, $request) {
             $rules = [
-                'title' => 'required|max:255|unique:movies',
+                'title' => 'required|unique:movies',
                 'image_url' => 'required|url',
                 'published_year' => 'required|integer',
                 'description' => 'required|max:255',
@@ -128,7 +129,6 @@ class MovieController extends Controller
             ];
             $messages = [
                 'title.required' => 'タイトルを入力してください',
-                'title.max' => 'タイトルは255文字以内で入力してください',
                 'title.unique' => 'タイトルは既に登録されています',
                 'image_url.required' => '画像URLを入力してください',
                 'image_url.url' => '画像URLを正しく入力してください',
