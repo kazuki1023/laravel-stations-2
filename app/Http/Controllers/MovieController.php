@@ -172,4 +172,10 @@ class MovieController extends Controller
         session()->flash('delete_success', '削除が完了しました');
         return redirect('/admin/movies');
     }
+
+    // 座席表
+    public function sheets()
+    {
+        return view('movies/sheets');
+    }
 }

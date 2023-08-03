@@ -40,6 +40,9 @@ Route::patch('admin/movies/{id}/update', [MovieController::class, 'update']);
 // 削除
 Route::delete('admin/movies/{id}/destroy', [MovieController::class, 'delete']);
 
+// 座席表
+Route::get('/sheets', [MovieController::class, 'sheets']);
+
 
 
 
