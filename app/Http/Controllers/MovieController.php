@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\Models\Genre;
+use App\Models\Sheet;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 
@@ -176,6 +177,7 @@ class MovieController extends Controller
     // 座席表
     public function sheets()
     {
-        return view('movies/sheets');
+        $sheets = Sheet::all();
+        dd($sheets);
     }
 }
