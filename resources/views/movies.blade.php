@@ -78,6 +78,9 @@
                     <th scope="col" class="px-6 py-3 bg-gray-50">
                         削除
                     </th>
+                    <th scope="col" class="px-6 py-3 bg-gray-50">
+                        詳細
+                    </th>
 
                 </tr>
             </thead>
@@ -126,6 +129,10 @@
                                 <button type="submit"
                                     class="text-red-800 hover:text-red-900 dark:text-red-400 dark:hover:text-red-600">削除</button>
                             </form>
+                        </td>
+                        <td class="px-6 py-4">
+                            <a href="/movies/{{ $movie->id }}"
+                                class="text-indigo-800 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-600">詳細</a>
                         </td>
                     </tr>
                 @endforeach
