@@ -1,4 +1,4 @@
-@extends('layouts.index')
+@extends('layouts.adminIndex')
 
 @section('content')
     <form action="/admin/movies/store" method="POST" class="">
