@@ -34,6 +34,7 @@ Route::get('/admin/movies', [MovieController::class, 'showAdmin']);
 
 Route::post('/admin/movies/store', [MovieController::class, 'store']);
 Route::get('/admin/movies/create', [MovieController::class, 'register']);
+Route::get('/admin/schedules', [MovieController::class, 'showSchedule']);
 
 // 編集
 Route::get('admin/movies/{id}/edit', [MovieController::class, 'edit']);
