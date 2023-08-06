@@ -14,7 +14,10 @@ class CreateSchedulesTable extends Migration
     public function up()
     {
         Schema::create('schedules', function (Blueprint $table) {
-            $table->id();
+            $table->id()->autoIncrement()->comment('ID');
+            $table->foreignId('movie_id')->references('id')->on('movies')->constrained()->comment('列');
+            $table->time('start_time')->comment('開始時間');
+            $table->time('end_time')->comment('終了時間');
             $table->timestamps();
         });
     }
