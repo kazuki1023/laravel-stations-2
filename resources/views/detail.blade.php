@@ -67,7 +67,7 @@
                     @foreach($schedules as $schedule)
                     <th scope="row"
                         class="flex px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white dark:bg-gray-800">
-                        {{ $schedule->start_time }}~{{ $schedule->end_time }}
+                        {{ $schedule->start_time->format('H:i') }}~{{ $schedule->end_time->format('H:i') }}
                     </th>
                     @endforeach
                 </tr>

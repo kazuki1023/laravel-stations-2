@@ -11,6 +11,11 @@
 php artisan test --group=test
 ```
 
+### 対話型debugツールの導入
+```
+eval(\Psy\sh());
+```
+
 # 環境構築
 
 1. Docker Desktop

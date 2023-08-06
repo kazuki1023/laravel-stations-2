@@ -51,6 +51,9 @@ class ScheduleTest extends TestCase
         }
     }
 
+    /**
+     * @group station14-1
+     */
     public function test上映スケジュールが上映開始時刻の昇順である(): void
     {
         $movieId = $this->createMovie()->id;
@@ -71,6 +74,7 @@ class ScheduleTest extends TestCase
             'start_time' => $now->addHours(8),
             'end_time' => $now->addHours(9),
         ]);
+        // eval(\Psy\sh());
 
         $response = $this->get('/movies/' . $movieId);
         $response->assertSeeTextInOrder([

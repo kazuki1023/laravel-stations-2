@@ -172,10 +172,9 @@ class MovieController extends Controller
 
     public function showSchedule()
     {
-        $movies = Movie::all();
-        $schedules = $movies->schedules;
+        $schedules = Schedule::all();
         dd($schedules);
-        return view('movies/schedules', ['movies' => $movies, 'schedules' => $schedules]);
+        return view('movies/schedules', ['schedules' => $schedules]);
     }
 
     public function delete($id)
