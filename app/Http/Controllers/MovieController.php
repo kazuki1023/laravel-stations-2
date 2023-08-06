@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\Models\Genre;
 use App\Models\Sheet;
+use App\Models\Schedule;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 
@@ -160,6 +161,13 @@ class MovieController extends Controller
             $movie->save();
         });
         return redirect('/admin/movies');
+    }
+
+    public function detail($id)
+    {
+        $movie = Movie::find($id);
+        $schedules = $movie->schedules->sortBy('start_time');
+        return view('detail', ['movie' => $movie, 'schedules' => $schedules]);
     }
 
     public function delete($id)
