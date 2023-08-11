@@ -189,6 +189,13 @@ class MovieController extends Controller
         return view('movies/schedule/detail', ['schedules' => $schedules]);
     }
 
+    public function editSchedule($id)
+    {
+        $schedules = Schedule::with('movie')->find($id);
+        // dd($schedules);
+        return view('movies/schedule/edit', ['schedules' => $schedules]);
+    }
+
     public function delete($id)
     {
         $movie = Movie::find($id);
