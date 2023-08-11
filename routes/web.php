@@ -37,6 +37,8 @@ Route::get('/admin/movies/create', [MovieController::class, 'register']);
 // スケジュール
 Route::get('/admin/schedules', [MovieController::class, 'showSchedule']);
 Route::get('admin/schedules/{id}', [MovieController::class, 'detailSchedule']);
+Route::get('/admin/movies/{id}/schedules/create', [MovieController::class, 'createSchedule']);
+Route::get('/admin/schedules/{id}/edit', [MovieController::class, 'editSchedule']);
 
 // 編集
 Route::get('admin/movies/{id}/edit', [MovieController::class, 'edit']);
