@@ -55,6 +55,12 @@ class MovieController extends Controller
         return view('movies/movies', ['movies' => $movies]);
     }
 
+    function detailAdmin($id)
+    {
+        $movie = Movie::with('schedules')->find($id);
+        return view('movies/detail', ['movie' => $movie]);
+    }
+
     function register(Request $request)
     {
         return view('movies/register');
