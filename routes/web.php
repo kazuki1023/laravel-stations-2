@@ -22,7 +22,6 @@ Route::get('/', function () {
 use App\Http\Controllers\PracticeController;
 use Illuminate\Routing\Route as RoutingRoute;
 
-// Route::get('URL', [Controllerの名前::class, 'Controller内のfunction名']);
 Route::get('/practice', [PracticeController::class, 'sample']);
 Route::get('/practice2', [PracticeController::class, 'sample2']);
 Route::get('/practice3', [PracticeController::class, 'sample3']);
@@ -34,7 +33,9 @@ Route::get('/admin/movies', [MovieController::class, 'showAdmin']);
 
 Route::post('/admin/movies/store', [MovieController::class, 'store']);
 Route::get('/admin/movies/create', [MovieController::class, 'register']);
+// スケジュール
 Route::get('/admin/schedules', [MovieController::class, 'showSchedule']);
+Route::get('admin/schedules/{id}', [MovieController::class, 'detailSchedule']);
 
 // 編集
 Route::get('admin/movies/{id}/edit', [MovieController::class, 'edit']);

@@ -21,8 +21,8 @@ class DatabaseSeeder extends Seeder
 
     public function run()
     {
-        Movie::factory(40)->has(
-            Schedule::factory(10)->state(function() {
+        Movie::factory(20)->has(
+            Schedule::factory(5)->state(function() {
                 $start_time = CarbonImmutable::now()->addMinutes(rand(1, 300));
                 return [
                     'start_time' => $start_time,

@@ -172,9 +172,8 @@ class MovieController extends Controller
 
     public function showSchedule()
     {
-        $schedules = Schedule::all();
-        dd($schedules);
-        return view('movies/schedules', ['schedules' => $schedules]);
+        $moviesWithSchedules = Movie::whereHas('schedules')->with('schedules')->paginate(10);
+        return view('movies/schedules', ['movies' => $moviesWithSchedules]);
     }
 
     public function delete($id)
