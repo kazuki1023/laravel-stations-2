@@ -21,6 +21,9 @@
                     <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
                         上映スケジュール
                     </th>
+                    <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800">
+                        新規作成
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -33,9 +36,12 @@
                             @foreach ($movie->schedules as $schedule)
                                 <span
                                     class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 inline-block mb-2"><a
-                                        href="/admin/schedules/{{$schedule->id}}">{{ $schedule->start_time->format('Y-m-d H:i') }}~{{ $schedule->end_time->format('Y-m-d H:i') }}</a>
+                                        href="/admin/schedules/{{ $schedule->id }}">{{ $schedule->start_time->format('Y-m-d H:i') }}~{{ $schedule->end_time->format('Y-m-d H:i') }}</a>
                                 </span>
                             @endforeach
+                        </th>
+                        <th scope="col" class="px-6 py-3 bg-gray-50 dark:bg-gray-800 flex-wrap w-10">
+                            <a href="./movies/{{$movie->id}}/schedules/create" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-thin rounded-lg text-sm px-5 py-2.5  mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 inline-block">作成</a>
                         </th>
                     </tr>
                 @endforeach
