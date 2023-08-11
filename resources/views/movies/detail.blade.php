@@ -62,13 +62,29 @@
                 </tr>
                 <tr class="border-b border-gray-200 dark:border-gray-700">
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                        上映中かどうか
+                    </th>
+                    <th scope="row"
+                        class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white dark:bg-gray-800">
+                        @if ($movie->is_showing)
+                            上映中
+                        @else
+                            上映予定
+                        @endif
+                    </th>
+                </tr>
+                <tr class="border-b border-gray-200 dark:border-gray-700">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                         上映時間
                     </th>
-                    @foreach($movie->schedules as $schedule)
-                    <th scope="row"
-                        class="flex px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white dark:bg-gray-800">
-                        {{ $schedule->start_time->format('H:i') }}~{{ $schedule->end_time->format('H:i') }}
-                    </th>
+                    @foreach ($movie->schedules as $schedule)
+                        <th scope="row"
+                            class="flex px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white dark:bg-gray-800">
+                            <span
+                                class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 inline-block mb-2"><a
+                                    href="/admin/schedules/{{ $schedule->id }}">{{ $schedule->start_time->format('Y-m-d H:i') }}~{{ $schedule->end_time->format('Y-m-d H:i') }}</a>
+                            </span>
+                        </th>
                     @endforeach
                 </tr>
             </tbody>
