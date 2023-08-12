@@ -81,6 +81,9 @@ class AdminScheduleTest extends TestCase
         $this->assertScheduleCount(1);
     }
 
+    /**
+     * @group test
+     */
     public function testRequiredバリデーションが設定されているか(): void
     {
         $this->assertScheduleCount(0);

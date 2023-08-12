@@ -142,9 +142,6 @@ class AdminMovieTest extends TestCase
         $this->assertMovieCount(0);
     }
 
-    /**
-     * @group test
-     */
     public function test映画タイトルの重複バリデーションが設定されているか(): void
     {
         $movie = $this->createMovie();
