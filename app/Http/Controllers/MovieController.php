@@ -156,7 +156,6 @@ class MovieController extends Controller
             $is_showing = ($request->is_showing == '上映中') ? true : false;
             $genreName = $request->input('genre');
             $genre = Genre::firstOrCreate(['name' => $genreName]);
-
             $movie->title = $request->title;
             $movie->image_url = $request->image_url;
             $movie->description = $request->description;
@@ -197,6 +196,39 @@ class MovieController extends Controller
         $end_time_date = Carbon::parse($schedules->end_time)->format('Y-m-d');
         $end_time_time = Carbon::parse($schedules->end_time)->format('H:i');
         return view('movies/schedule/edit', ['schedules' => $schedules, 'start_time_date' => $start_time_date, 'start_time_time' => $start_time_time, 'end_time_date' => $end_time_date, 'end_time_time' => $end_time_time]);
+    }
+
+    public function updateSchedule(Request $request)
+    {
+        // dd($request->all());
+        DB::transaction(function () use ($request) {
+            $rules = [
+                'start_time_date' => 'required|date',
+                'start_time_time' => 'required',
+                'end_time_date' => 'required|date',
+                'end_time_time' => 'required'
+            ];
+            $messages = [
+                'start_time_date.required' => '開始日時を入力してください',
+                'start_time_date.date' => '開始日時は既に登録されています',
+                'start_time_time.required' => '開始時間を入力してください',
+                'end_time_date.required' => '終了時間を入力してください',
+                'end_time_date.date' => '終了日時は255文字以内で入力してください',
+                'end_time_time.required' => '終了時間を入力してください'
+            ];
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()) {
+                // バリデーションエラーが発生した場合の処理
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+            $schedules = Schedule::find($request->schedule_id);
+            $start_time = Carbon::parse($request->start_time_date . ' ' . $request->start_time_time);
+            $end_time = Carbon::parse($request->end_time_date . ' ' . $request->end_time_time);
+            $schedules->start_time = $start_time->format('Y-m-d H:i:s');
+            $schedules->end_time = $end_time->format('Y-m-d H:i:s');
+            $schedules->save();
+        });
+        return redirect('/admin/schedules');
     }
 
     public function delete($id)
