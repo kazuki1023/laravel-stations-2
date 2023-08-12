@@ -1,4 +1,4 @@
-@extends('layouts.index')
+@extends('layouts.adminIndex')
 
 @section('content')
     <form action="/admin/movies/{{$movie->id}}/update" method="post" class="">

@@ -22,16 +22,26 @@ Route::get('/', function () {
 use App\Http\Controllers\PracticeController;
 use Illuminate\Routing\Route as RoutingRoute;
 
-// Route::get('URL', [Controllerの名前::class, 'Controller内のfunction名']);
 Route::get('/practice', [PracticeController::class, 'sample']);
 Route::get('/practice2', [PracticeController::class, 'sample2']);
 Route::get('/practice3', [PracticeController::class, 'sample3']);
 Route::get('/getPractice', [PracticeController::class, 'getPractice']);
 Route::get('/movies', [MovieController::class, 'show']);
+// 詳細
+Route::get('/movies/{id}', [MovieController::class, 'detail']);
 Route::get('/admin/movies', [MovieController::class, 'showAdmin']);
-
-Route::post('/admin/movies/store', [MovieController::class, 'store']);
 Route::get('/admin/movies/create', [MovieController::class, 'register']);
+Route::get('/admin/movies/{id}', [MovieController::class, 'detailAdmin']);
+Route::post('/admin/movies/store', [MovieController::class, 'store']);
+
+// スケジュール
+Route::get('/admin/schedules', [MovieController::class, 'showSchedule']);
+Route::get('admin/schedules/{id}', [MovieController::class, 'detailSchedule']);
+Route::get('/admin/movies/{id}/schedules/create', [MovieController::class, 'createSchedule']);
+Route::post('/admin/movies/{id}/schedules/store', [MovieController::class, 'storeSchedule']);
+Route::get('/admin/schedules/{id}/edit', [MovieController::class, 'editSchedule']);
+Route::patch('/admin/schedules/{id}/update', [MovieController::class, 'updateSchedule']);
+Route::delete('/admin/schedules/{id}/destroy', [MovieController::class, 'deleteSchedule']);
 
 // 編集
 Route::get('admin/movies/{id}/edit', [MovieController::class, 'edit']);

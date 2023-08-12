@@ -1,4 +1,4 @@
-@extends('layouts.index')
+@extends('layouts.adminIndex')
 
 @section('content')
     {{-- 削除成功のflashメッセージを表示させる --}}
@@ -51,7 +51,7 @@
                 @foreach ($movies as $movie)
                     <tr class="border-b border-gray-200 dark:border-gray-700">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                            {{ $movie->id }}
+                            <a href="./movies/{{ $movie->id }}">{{ $movie->id }}</a>
                         </th>
                         <th scope="row"
                             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white dark:bg-gray-800">
