@@ -77,7 +77,11 @@ class MovieController extends Controller
                     'published_year' => 'required|integer',
                     'description' => 'required|max:255',
                     'is_showing' => 'required',
-                    'genre' => 'required'
+                    'genre' => 'required',
+                    'start_time_date' => 'required|date_format:Y-m-d',
+                    'start_time_time' => 'required|date_format:H:i:s',
+                    'end_time_date' => 'required|date_format:Y-m-d',
+                    'end_time_time' => 'required|date_format:H:i:s'
                 ];
                 $messages = [
                     'title.required' => 'タイトルを入力してください',
@@ -88,7 +92,15 @@ class MovieController extends Controller
                     'description.max' => '概要は255文字以内で入力してください',
                     'description.required' => '概要を入力してください',
                     'is_showing.max' => '公開年を入力してください',
-                    'genre.required' => 'ジャンルを入力してください'
+                    'genre.required' => 'ジャンルを入力してください',
+                    'start_time_date.required' => '開始日時を入力してください',
+                    'start_time_date.date_format' => '開始日時は既に登録されています',
+                    'start_time_time.required' => '開始時間を入力してください',
+                    'start_time_time.date_format' => '開始時間を入力してください',
+                    'end_time_date.required' => '終了時間を入力してください',
+                    'end_time_date.date_format' => '終了日時は255文字以内で入力してください',
+                    'end_time_time.required' => '終了時間を入力してください',
+                    'end_time_time.date_format' => '終了時間を入力してください'
                 ];
                 $validator = Validator::make($request->all(), $rules, $messages);
                 if ($validator->fails()) {
@@ -110,6 +122,14 @@ class MovieController extends Controller
                 $movie->is_showing = $is_showing;
                 $movie->genre()->associate($genre);
                 $movie->save();
+                $start_time = Carbon::parse($request->start_time_date . ' ' . $request->start_time_time);
+                $end_time = Carbon::parse($request->end_time_date . ' ' . $request->end_time_time);
+
+                $scheduleData = [
+                    'start_time' => $start_time->format('Y-m-d H:i:s'),
+                    'end_time' => $end_time->format('Y-m-d H:i:s'),
+                ];
+                $movie->schedules()->create($scheduleData);
             });
         } catch (\Exception $e) {
             return abort(500, "Validation error");
@@ -133,7 +153,11 @@ class MovieController extends Controller
                 'published_year' => 'required|integer',
                 'description' => 'required|max:255',
                 'is_showing' => 'required',
-                'genre' => 'required'
+                'genre' => 'required',
+                'start_time_date' => 'required|date_format:Y-m-d',
+                'start_time_time' => 'required|date_format:H:i:s',
+                'end_time_date' => 'required|date_format:Y-m-d',
+                'end_time_time' => 'required|date_format:H:i:s'
             ];
             $messages = [
                 'title.required' => 'タイトルを入力してください',
@@ -144,7 +168,15 @@ class MovieController extends Controller
                 'description.max' => '概要は255文字以内で入力してください',
                 'description.required' => '概要を入力してください',
                 'is_showing.max' => '公開年を入力してください',
-                'genre.required' => 'ジャンルを入力してください'
+                'genre.required' => 'ジャンルを入力してください',
+                'start_time_date.required' => '開始日時を入力してください',
+                'start_time_date.date_format' => '開始日時は既に登録されています',
+                'start_time_time.required' => '開始時間を入力してください',
+                'start_time_time.date_format' => '開始時間を入力してください',
+                'end_time_date.required' => '終了時間を入力してください',
+                'end_time_date.date_format' => '終了日時は255文字以内で入力してください',
+                'end_time_time.required' => '終了時間を入力してください',
+                'end_time_time.date_format' => '終了時間を入力してください'
             ];
             $validator = Validator::make($request->all(), $rules, $messages);
             if ($validator->fails()) {
@@ -189,6 +221,12 @@ class MovieController extends Controller
         }
         // dd($schedules);
         return view('movies/schedule/detail', ['schedules' => $schedules]);
+    }
+
+    public function createSchedule($id)
+    {
+        $movie_id = $id;
+        return view('movies/schedule/register', ['movie_id' => $movie_id]);
     }
 
     public function editSchedule($id)
