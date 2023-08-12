@@ -192,8 +192,11 @@ class MovieController extends Controller
     public function editSchedule($id)
     {
         $schedules = Schedule::with('movie')->find($id);
-        // dd($schedules);
-        return view('movies/schedule/edit', ['schedules' => $schedules]);
+        $start_time_date = Carbon::parse($schedules->start_time)->format('Y-m-d');
+        $start_time_time = Carbon::parse($schedules->start_time)->format('H:i');
+        $end_time_date = Carbon::parse($schedules->end_time)->format('Y-m-d');
+        $end_time_time = Carbon::parse($schedules->end_time)->format('H:i');
+        return view('movies/schedule/edit', ['schedules' => $schedules, 'start_time_date' => $start_time_date, 'start_time_time' => $start_time_time, 'end_time_date' => $end_time_date, 'end_time_time' => $end_time_time]);
     }
 
     public function delete($id)
