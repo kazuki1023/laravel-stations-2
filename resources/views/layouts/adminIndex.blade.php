@@ -25,8 +25,8 @@
         document.addEventListener("DOMContentLoaded", function() {
             // 削除ボタンがクリックされたときの処理
             document.querySelectorAll('.delete-form').forEach(form => {
-                console.log("発火");
                 form.addEventListener('submit', function(event) {
+                    console.log("発火");
                     event.preventDefault(); // デフォルトのフォーム送信をキャンセル
                     // 確認ダイアログを表示し、OKボタンがクリックされた場合に削除処理を実行
                     if (confirm('本当に削除しますか？')) {

@@ -148,9 +148,9 @@
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">更新</button>
         </div>
     </form>
-    <form action="/admin/schedules/{{ $schedules->id}}/destroy" method="post" class="w-4/5 flex justify-center">
+    <form action="/admin/schedules/{{ $schedules->id}}/destroy" method="post" class="w-4/5 flex justify-center delete-form">
         @csrf
         @method('DELETE')
-        <button type="submit" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 delete-form ">削除</button>
+        <button type="submit" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 ">削除</button>
     </form>
 @endsection
