@@ -229,6 +229,52 @@ class MovieController extends Controller
         return view('movies/schedule/register', ['movie_id' => $movie_id]);
     }
 
+    public function storeSchedule($id, Request $request)
+    {
+        // dd($request->all());
+        DB::transaction(function () use ($request, $id) {
+            $start_time_24hr = Carbon::createFromFormat('h:i A', $request->start_time_time)->format('H:i:s');
+            $end_time_24hr = Carbon::createFromFormat('h:i A', $request->end_time_time)->format('H:i:s');
+            $request->merge([
+                'start_time_time' => $start_time_24hr,
+                'end_time_time' => $end_time_24hr,
+            ]);
+            $rules = [
+                'start_time_date' => 'required|date_format:Y-m-d',
+                'start_time_time' => 'required|date_format:H:i:s',
+                'end_time_date' => 'required|date_format:Y-m-d',
+                'end_time_time' => 'required|date_format:H:i:s'
+            ];
+            $messages = [
+                'start_time_date.required' => '開始日時を入力してください',
+                'start_time_date.date_format' => '開始日時は既に登録されています',
+                'start_time_time.required' => '開始時間を入力してください',
+                'start_time_time.date_format' => '開始時間を入力してください',
+                'end_time_date.required' => '終了時間を入力してください',
+                'end_time_date.date_format' => '終了日時は255文字以内で入力してください',
+                'end_time_time.required' => '終了時間を入力してください',
+                'end_time_time.date_format' => '終了時間を入力してください'
+            ];
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()) {
+                dd($validator->errors());
+                // バリデーションエラーが発生した場合の処理
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+            $movie_id = $id;
+            $schedules = new Schedule();
+            $start_time = Carbon::parse($request->start_time_date . ' ' . $request->start_time_time);
+            $end_time = Carbon::parse($request->end_time_date . ' ' . $request->end_time_time);
+            $schedules->movie_id = $movie_id;
+            $schedules->start_time = $start_time->format('Y-m-d H:i:s');
+            $schedules->end_time = $end_time->format('Y-m-d H:i:s');
+            $schedules->save();
+            session()->flash('successCreate', '問題の作成に成功しました');
+        });
+        // dd(session()->all());
+        return redirect('/admin/schedules');
+    }
+
     public function editSchedule($id)
     {
         $schedules = Schedule::with('movie')->find($id);
