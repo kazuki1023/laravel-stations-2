@@ -184,6 +184,9 @@ class MovieController extends Controller
     public function detailSchedule($id)
     {
         $schedules = Schedule::with('movie')->find($id);
+        if (!$schedules) {
+            return response()->view('errors/notExists', ['message' => '映画が見つかりませんでした'], 404);
+        }
         // dd($schedules);
         return view('movies/schedule/detail', ['schedules' => $schedules]);
     }
@@ -203,18 +206,20 @@ class MovieController extends Controller
         // dd($request->all());
         DB::transaction(function () use ($request) {
             $rules = [
-                'start_time_date' => 'required|date',
-                'start_time_time' => 'required',
-                'end_time_date' => 'required|date',
-                'end_time_time' => 'required'
+                'start_time_date' => 'required|date_format:Y-m-d',
+                'start_time_time' => 'required|date_format:H:i:s',
+                'end_time_date' => 'required|date_format:Y-m-d',
+                'end_time_time' => 'required|date_format:H:i:s'
             ];
             $messages = [
                 'start_time_date.required' => '開始日時を入力してください',
-                'start_time_date.date' => '開始日時は既に登録されています',
+                'start_time_date.date_format' => '開始日時は既に登録されています',
                 'start_time_time.required' => '開始時間を入力してください',
+                'start_time_time.date_format' => '開始時間を入力してください',
                 'end_time_date.required' => '終了時間を入力してください',
-                'end_time_date.date' => '終了日時は255文字以内で入力してください',
-                'end_time_time.required' => '終了時間を入力してください'
+                'end_time_date.date_format' => '終了日時は255文字以内で入力してください',
+                'end_time_time.required' => '終了時間を入力してください',
+                'end_time_time.date_format' => '終了時間を入力してください'
             ];
             $validator = Validator::make($request->all(), $rules, $messages);
             if ($validator->fails()) {

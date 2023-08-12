@@ -36,7 +36,7 @@
                             @foreach ($movie->schedules->sortBy('start_time') as $schedule)
                                 <span
                                     class="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 inline-block mb-2"><a
-                                        href="/admin/schedules/{{ $schedule->id }}">{{ $schedule->start_time->format('Y-m-d H:i') }}~{{ $schedule->end_time->format('Y-m-d H:i') }}</a>
+                                        href="/admin/schedules/{{ $schedule->id }}">{{ $schedule->start_time->format('Y-m-d H:i:s') }}~{{ $schedule->end_time->format('Y-m-d H:i:s') }}</a>
                                 </span>
                             @endforeach
                         </th>
