@@ -30,10 +30,10 @@ Route::get('/movies', [MovieController::class, 'show']);
 // 詳細
 Route::get('/movies/{id}', [MovieController::class, 'detail']);
 Route::get('/admin/movies', [MovieController::class, 'showAdmin']);
-Route::get('/admin/movies/{id}', [MovieController::class, 'detailAdmin']);
-
-Route::post('/admin/movies/store', [MovieController::class, 'store']);
 Route::get('/admin/movies/create', [MovieController::class, 'register']);
+Route::get('/admin/movies/{id}', [MovieController::class, 'detailAdmin']);
+Route::post('/admin/movies/store', [MovieController::class, 'store']);
+
 // スケジュール
 Route::get('/admin/schedules', [MovieController::class, 'showSchedule']);
 Route::get('admin/schedules/{id}', [MovieController::class, 'detailSchedule']);
