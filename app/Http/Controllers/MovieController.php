@@ -227,7 +227,17 @@ class MovieController extends Controller
             $schedules->start_time = $start_time->format('Y-m-d H:i:s');
             $schedules->end_time = $end_time->format('Y-m-d H:i:s');
             $schedules->save();
+            session()->flash('successUpdate', '問題の更新に成功しました');
         });
+        // dd(session()->all());
+        return redirect('/admin/schedules');
+    }
+
+    public function deleteSchedule($id)
+    {
+        $schedules = Schedule::find($id);
+        $schedules->delete();
+        session()->flash('successDelete', '問題の削除に成功しました');
         return redirect('/admin/schedules');
     }
 
